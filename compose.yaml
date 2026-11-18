@@ -1,0 +1,13 @@
+services:
+  linklane:
+    build: .
+    ports:
+      - "127.0.0.1:8787:8787"
+    environment:
+      LINKLANE_BASE_URL: ${LINKLANE_BASE_URL:-https://links.example.com}
+      LINKLANE_SECURE_COOKIES: "1"
+    volumes:
+      - linklane-data:/data
+    restart: unless-stopped
+volumes:
+  linklane-data:

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block body %}
+<main class="auth-layout">
+  <section class="auth-story">
+    <a href="/" class="brand"><img src="/static/logo.svg" alt="" width="36" height="36">linklane<span class="brand-dot">.</span></a>
+    <div><p class="eyebrow">МЕНЬШЕ СИМВОЛОВ. БОЛЬШЕ ВОЗМОЖНОСТЕЙ.</p>
+      <h1>Хорошие ссылки<br>ведут к большему.</h1>
+      <p class="story-copy">Соберите важное в одном месте.<br>Делитесь коротко. Следите за результатом.</p>
+      <div class="link-art" aria-hidden="true"><span class="art-url">your-long-address.com/something…</span><span class="art-arrow">↘</span><span class="art-short">linklane / hello <span>↗</span></span></div>
+    </div>
+    <p class="story-footer">Ваш кабинет. Ваши данные. Ваши правила.</p>
+  </section>
+  <section class="auth-form-area">
+    <form id="auth-form" data-mode="{{ 'setup' if setup else 'login' }}" class="auth-card">
+      <span class="pill">{{ 'ПЕРВЫЙ ЗАПУСК' if setup else 'ЛИЧНЫЙ КАБИНЕТ' }}</span>
+      <h2>{{ 'Добро пожаловать.' if setup else 'С возвращением.' }}</h2>
+      <p class="muted">{{ 'Придумайте пароль владельца. Он защитит ваши ссылки и статистику.' if setup else 'Введите пароль, чтобы продолжить работу со ссылками.' }}</p>
+      <label for="password">Пароль владельца</label>
+      <input id="password" name="password" type="password" minlength="12" maxlength="200" required autocomplete="{{ 'new-password' if setup else 'current-password' }}" placeholder="Не менее 12 символов">
+      {% if setup %}<label for="confirm-password">Повторите пароль</label><input id="confirm-password" type="password" minlength="12" maxlength="200" required autocomplete="new-password" placeholder="Ещё один раз">{% endif %}
+      <p id="auth-error" class="form-error" role="alert"></p>
+      <button class="btn btn-primary full" type="submit">{{ 'Создать кабинет' if setup else 'Войти в Linklane' }} <span>↗</span></button>
+      <p class="auth-note">{{ 'Пароль хранится в виде стойкого хеша. Первичная настройка доступна только локально.' if setup else 'Вход доступен только владельцу. Созданные ссылки открываются без входа.' }}</p>
+    </form>
+  </section>
+</main>
+{% endblock %}

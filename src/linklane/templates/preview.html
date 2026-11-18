@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}{{ link.title }} — Linklane{% endblock %}
+{% block body %}<main class="message-page"><a href="/" class="brand"><img src="/static/logo.svg" alt="" width="36" height="36">linklane.</a><div class="message-card"><p class="eyebrow">ПРЕДПРОСМОТР ССЫЛКИ</p><h1>{{ link.title }}</h1><p class="muted">Эта ссылка ведёт на <strong>{{ domain }}</strong></p><p class="destination-preview">{{ link.destination }}</p><a href="/s/{{ link.slug }}" class="btn btn-primary" rel="nofollow noreferrer">Перейти на сайт ↗</a><p class="auth-note">Открывайте адрес, если доверяете отправителю. Linklane не проверяет содержимое внешнего сайта.</p></div></main>{% endblock %}

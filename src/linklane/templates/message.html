@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} — Linklane{% endblock %}
+{% block body %}<main class="message-page"><a href="/" class="brand"><img src="/static/logo.svg" alt="" width="36" height="36">linklane.</a><div class="message-card"><p class="eyebrow">{{ status }}</p><h1>{{ title }}</h1><p class="muted">{{ message }}</p><a href="/" class="btn btn-primary">На главную ↗</a></div></main>{% endblock %}

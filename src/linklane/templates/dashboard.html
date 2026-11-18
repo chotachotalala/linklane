@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="workspace" id="workspace" data-base-url="{{ base_url }}">
+  <aside class="sidebar">
+    <a href="/app" class="brand"><img src="/static/logo.svg" alt="" width="31" height="31">linklane<span class="brand-dot">.</span></a>
+    <div class="workspace-switch"><span class="avatar">L</span><div><strong>Моё пространство</strong><small>Личный кабинет</small></div><span>⌄</span></div>
+    <p class="nav-label">РАБОЧЕЕ ПРОСТРАНСТВО</p>
+    <nav aria-label="Главная навигация">
+      <button class="nav-item active" data-view="links"><span>↗</span>Все ссылки <b id="nav-count">0</b></button>
+      <button class="nav-item" data-view="analytics"><span>▥</span>Аналитика</button>
+      <button class="nav-item" data-view="settings"><span>⚙</span>Настройки</button>
+    </nav>
+    <div class="sidebar-tip"><span class="tip-mark">✳</span><strong>Маленькая ссылка.<br>Большие возможности.</strong><p>Добавьте свой адрес, поделитесь QR-кодом и посмотрите, что работает.</p><button class="text-button" id="sidebar-create">Создать ссылку ↗</button></div>
+    <div class="sidebar-bottom"><span class="connection-dot"></span>Данные на вашем сервере<button id="logout" class="icon-button" aria-label="Выйти" title="Выйти">⇥</button></div>
+  </aside>
+  <main class="main-content">
+    <header class="topbar"><span>Моё пространство <span class="slash">/</span> <strong id="breadcrumb">Все ссылки</strong></span><span class="owner-chip"><span class="connection-dot"></span>Владелец</span></header>
+    <div class="page-content">
+      <section id="view-links">
+        <div class="page-heading"><div><p class="eyebrow">ПОРЯДОК В КАЖДОМ АДРЕСЕ</p><h1>Ваши ссылки, короче<span class="accent">.</span></h1><p class="muted">Всё, чем вы делитесь, — в одном пространстве.</p></div><button id="create-link" class="btn btn-primary">＋ Создать ссылку</button></div>
+        <div class="stats-grid">
+          <article class="stat-card"><span>Всего ссылок <span class="stat-icon">↗</span></span><strong id="stat-total">—</strong><small>Все созданные адреса</small></article>
+          <article class="stat-card"><span>Переходов <span class="stat-icon">⌁</span></span><strong id="stat-clicks">—</strong><small>За всё время, по текущим ссылкам</small></article>
+          <article class="stat-card"><span>Активных ссылок <span class="stat-icon">◉</span></span><strong id="stat-active">—</strong><small>Готовы к новым переходам</small></article>
+        </div>
+        <div class="insight-strip"><div class="insight-symbol">✦</div><div><strong>Короткий путь к нужному.</strong><p>Используйте понятные адреса и метки, чтобы важное всегда было под рукой.</p></div><span class="strip-arrow">↗</span></div>
+        <section class="links-panel" aria-label="Список ссылок">
+          <div class="panel-title"><h2>Коллекция ссылок <span id="collection-count" class="count-badge">0</span></h2><a class="text-button" href="/api/export.csv">↓ Экспорт CSV</a></div>
+          <div class="table-toolbar"><div class="tabs" role="group" aria-label="Состояние ссылок"><button class="tab active" data-filter="all">Все</button><button class="tab" data-filter="active">Активные</button><button class="tab" data-filter="paused">На паузе</button><button class="tab" data-filter="expired">Истёкшие</button></div><input type="search" id="search" aria-label="Поиск ссылок" placeholder="Поиск по названию, адресу, метке…"></div>
+          <div class="table-scroll"><table><thead><tr><th>Название и адрес</th><th>Метка</th><th>Переходы</th><th>Статус</th><th><span class="sr-only">Действия</span></th></tr></thead><tbody id="links-body"></tbody></table></div>
+          <div id="empty-state" class="empty-state" hidden><span>↗</span><h3>Здесь начинается ваша коллекция</h3><p>Создайте первую ссылку или измените условия поиска.</p><button class="btn" id="empty-create">Создать ссылку</button></div>
+          <div class="table-footer"><span id="visible-count">Загрузка ссылок…</span><span>Короткая ссылка. Долгая история.</span></div>
+        </section>
+      </section>
+      <section id="view-analytics" hidden>
+        <div class="page-heading"><div><p class="eyebrow">ЦИФРЫ, КОТОРЫЕ ИМЕЮТ ЗНАЧЕНИЕ</p><h1>Каждый переход — история<span class="accent">.</span></h1><p class="muted">Динамика за 14 дней и источники за последние 30 дней.</p></div></div>
+        <article class="analytics-card"><div class="panel-title"><h2>Динамика переходов</h2><span class="pill">14 ДНЕЙ · UTC</span></div><div id="activity-chart" class="activity-chart" role="img" aria-label="Переходы за последние 14 дней"></div></article>
+        <div class="analytics-grid"><article class="analytics-card"><h2>Откуда приходят</h2><div id="source-list"></div></article><article class="analytics-card"><h2>Браузеры</h2><div id="browser-list"></div></article></div>
+        <p class="muted privacy-note">Считаются GET-переходы, включая повторные и возможных ботов. IP-адреса и полный User-Agent посетителей не сохраняются. Подробные события хранятся до 90 дней.</p>
+      </section>
+      <section id="view-settings" hidden>
+        <div class="page-heading"><div><p class="eyebrow">ВАШЕ ПРОСТРАНСТВО</p><h1>Всё под контролем<span class="accent">.</span></h1><p class="muted">Настройки доступа и адрес вашего сервиса.</p></div></div>
+        <article class="settings-card"><h2>Адрес коротких ссылок</h2><code>{{ base_url }}/s/ваш-адрес</code><p class="muted">Чтобы делиться ссылками за пределами своего компьютера, сервис должен быть доступен получателям по этому адресу.</p><a href="/api/export.csv" class="btn">↓ Скачать список ссылок</a></article>
+        <form id="password-form" class="settings-card"><h2>Изменить пароль</h2><p class="muted">После смены пароля потребуется войти снова на всех устройствах.</p><label for="current-password">Текущий пароль</label><input id="current-password" type="password" autocomplete="current-password" required maxlength="200"><label for="new-password">Новый пароль</label><input id="new-password" type="password" autocomplete="new-password" required minlength="12" maxlength="200"><p class="form-error" id="password-error" role="alert"></p><button class="btn btn-primary" type="submit">Обновить пароль</button></form>
+      </section>
+      <footer class="page-footer"><span>linklane<span class="accent">.</span></span><span>Сделано, чтобы делиться.</span></footer>
+    </div>
+  </main>
+</div>
+<dialog id="link-dialog" class="modal">
+  <form id="link-form"><div class="modal-heading"><div><p class="eyebrow">НОВЫЙ КОРОТКИЙ ПУТЬ</p><h2 id="dialog-title">Создать ссылку</h2></div><button type="button" class="icon-button close-modal" aria-label="Закрыть">✕</button></div>
+    <label for="link-title">Название</label><input id="link-title" name="title" required maxlength="120" placeholder="Например, Моё портфолио">
+    <label for="destination">Куда ведёт ссылка</label><input id="destination" name="destination" type="url" required maxlength="2048" placeholder="https://example.com/your-long-address">
+    <label for="slug">Свой короткий адрес <span class="optional">необязательно</span></label><div class="slug-field"><span>/s/</span><input id="slug" name="slug" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9_-]{2,39}" placeholder="my-portfolio"></div><small class="field-hint" id="slug-hint">Оставьте пустым — подберём автоматически. От 3 до 40 символов.</small>
+    <div class="form-columns"><div><label for="tag">Метка</label><input id="tag" name="tag" maxlength="32" placeholder="Личное, работа…"></div><div><label for="expires">Действует до</label><input id="expires" name="expires" type="datetime-local"></div></div>
+    <label class="checkbox-row"><input id="link-active" type="checkbox" checked>Ссылка активна</label>
+    <p class="form-error" id="link-error" role="alert"></p><div class="modal-actions"><button type="button" class="btn close-modal">Отмена</button><button type="submit" class="btn btn-primary" id="save-link">Создать ссылку ↗</button></div>
+  </form>
+</dialog>
+<dialog id="qr-dialog" class="modal compact"><div class="modal-heading"><h2>Поделитесь QR-кодом</h2><button class="icon-button close-modal" aria-label="Закрыть">✕</button></div><div class="qr-container"><img id="qr-image" alt="QR-код короткой ссылки" width="240" height="240"></div><p id="qr-address" class="qr-address"></p><a id="qr-download" class="btn btn-primary full" download>↓ Скачать SVG</a></dialog>
+<dialog id="delete-dialog" class="modal compact"><h2>Удалить ссылку?</h2><p id="delete-description" class="muted"></p><p class="muted">Адрес перестанет работать. Статистика этой ссылки тоже будет удалена.</p><div class="modal-actions"><button class="btn close-modal">Отмена</button><button id="confirm-delete" class="btn btn-danger">Удалить</button></div></dialog>
+{% endblock %}
